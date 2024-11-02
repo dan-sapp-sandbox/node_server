@@ -1,15 +1,8 @@
-import cors from "cors";
-import express from "express";
-
+const express = require("express");
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.get("/", (req, res) => {
-    res.send("Welcome to my server!");
-});
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
-const port = 2021;
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
+app.listen(3000, () => console.log("Server ready on port 3000."));
+
+module.exports = app;
