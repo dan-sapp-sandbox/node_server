@@ -26,6 +26,8 @@ const setContext = (req, res, next) => {
 };
 app.use(setContext);
 
-app.use('/', indexRouter);
+app.get("/", (req, res) => {
+  res.send("Welcome to my server!");
+});
 
 module.exports = app;
