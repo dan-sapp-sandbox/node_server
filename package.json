@@ -1,7 +1,6 @@
 {
   "name": "node_server",
   "version": "1.0.0",
-  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node --env-file=config.env server",
