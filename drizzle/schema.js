@@ -1,4 +1,6 @@
-const { integer, pgTable, text, timestamp, uuid } = require("drizzle-orm/pg-core");
+const { integer, pgTable, text, timestamp, uuid } = require(
+  "drizzle-orm/pg-core",
+);
 
 const createdAt = timestamp("createdAt").notNull().defaultNow();
 const updatedAt = timestamp("updatedAt").notNull().defaultNow().$onUpdate(() =>
@@ -22,5 +24,5 @@ const PokemonTable = pgTable("pokemon-list", {
 });
 
 module.exports = {
-  PokemonTable
+  PokemonTable,
 };
