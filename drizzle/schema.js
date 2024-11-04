@@ -12,6 +12,7 @@ const PokemonTable = pgTable("pokemon-list", {
   pokedexId: integer("pokedexId").notNull(),
   name: text("name").notNull(),
   spriteUrl: text("spriteUrl").notNull(),
+  imageBlob: text("imageBlob"),
   attack: integer("attack").notNull(),
   defense: integer("defense").notNull(),
   hp: integer("hp").notNull(),
