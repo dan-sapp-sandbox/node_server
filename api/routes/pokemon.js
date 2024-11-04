@@ -13,19 +13,17 @@ const getDatabase = async () => {
     // .where(
     //   lte(PokemonTable.pokedexId, 151),
     // )
+    .orderBy(PokemonTable.pokedexId)
     .execute();
-  console.log(data);
   return data;
 };
 
 router.get("/", (req, res) => {
-  console.log("GET /pokemon");
   getDatabase()
     .then((data) => {
       res.json(data);
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
+    .catch(() => {
       res.status(500).send("Error fetching data");
     });
 });
