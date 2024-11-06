@@ -1,0 +1,1 @@
+ALTER TABLE "trivia-list" ADD COLUMN "difficulty" integer;
