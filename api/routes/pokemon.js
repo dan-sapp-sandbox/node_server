@@ -10,9 +10,9 @@ const router = express.Router();
 const db = drizzle(process.env.NEXT_PUBLIC_DATABASE_URL);
 const getDatabase = async () => {
   const data = await db.select().from(PokemonTable)
-    // .where(
-    //   lte(PokemonTable.pokedexId, 151),
-    // )
+    .where(
+      lte(PokemonTable.pokedexId, 151),
+    )
     .orderBy(PokemonTable.pokedexId)
     .execute();
   return data;
