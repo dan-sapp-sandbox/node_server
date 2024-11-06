@@ -3,18 +3,26 @@ const { drizzle } = require("drizzle-orm/neon-http");
 // const { lte, eq } = require("drizzle-orm");
 const { TriviaTable } = require("../../drizzle/schema");
 const { config } = require("dotenv");
-const mockData = require("./mockData");
-const { v4: uuidv4 } = require("uuid");
+// const mockData = require("./mockData");
+// const { v4: uuidv4 } = require("uuid");
 
 config({ path: ".env" });
 const router = express.Router();
 
 const db = drizzle(process.env.NEXT_PUBLIC_DATABASE_URL);
-const getDatabase = async () => {
+const getAllPrompts = async () => {
   const data = await db.select().from(TriviaTable)
     .orderBy(TriviaTable.id)
     .execute();
   return data;
+};
+const getUniqueTags = async () => {
+  const uniqueTags = await db
+    .select({ tag: TriviaTable.tag })
+    .from(TriviaTable)
+    .distinct();
+
+  return uniqueTags.map(row => row.tag);
 };
 // const formatMockDataDates = (data) => {
 //   return data.map(item => ({
@@ -44,7 +52,7 @@ const getDatabase = async () => {
 // };
 
 router.get("/", async (req, res) => {
-  getDatabase()
+  getAllPrompts()
     .then((data) => {
       res.json(data);
     })
@@ -57,6 +65,16 @@ router.get("/", async (req, res) => {
   // } catch (err) {
   //   res.status(500).send(err);
   // }
+});
+
+router.get("/tags", async (req, res) => {
+  getUniqueTags()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch(() => {
+      res.status(500).send("Error fetching data");
+    });
 });
 
 module.exports = router;
