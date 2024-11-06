@@ -1,6 +1,6 @@
 const express = require("express");
 const { drizzle } = require("drizzle-orm/neon-http");
-// const { lte, eq } = require("drizzle-orm");
+const { eq } = require("drizzle-orm");
 const { TriviaTable } = require("../../drizzle/schema");
 const { config } = require("dotenv");
 // const mockData = require("./mockData");
@@ -18,38 +18,19 @@ const getAllPrompts = async () => {
 };
 const getUniqueTags = async () => {
   const uniqueTags = await db
-    .select({ tag: TriviaTable.tag })
-    .from(TriviaTable)
-    .distinct();
-
-  return uniqueTags.map(row => row.tag);
+    .selectDistinct({ tag: TriviaTable.tag })
+    .from(TriviaTable);
+  return uniqueTags.map((row) => row.tag);
 };
-// const formatMockDataDates = (data) => {
-//   return data.map(item => ({
-//     ...item,
-//     id: uuidv4(),
-//     createdAt: item.createdAt ? new Date(item.createdAt) : new Date(),
-//     updatedAt: item.updatedAt ? new Date(item.updatedAt) : new Date()
-//   }));
-// };
 
-// const insertIntoDatabase = async () => {
-//   const formattedMockData = await formatMockDataDates(mockData);
-//   console.log("formattedMockData", formattedMockData)
-//   try {
-//     const insertPromises = formattedMockData?.map(newValues =>
-//       db
-//         .insert(TriviaTable)
-//         .values(newValues)
-//         .execute()
-//     );
-    
-//     const results = await Promise.all(insertPromises);
-//     console.log("Insert results:", results);
-//   } catch (error) {
-//     console.error("Error inserting into database:", error);
-//   }
-// };
+const getPromptsByTag = async (tag) => {
+  const uniqueTags = await db
+    .select()
+    .from(TriviaTable)
+    .where(eq(TriviaTable.tag, tag));
+
+  return uniqueTags;
+};
 
 router.get("/", async (req, res) => {
   getAllPrompts()
@@ -59,16 +40,21 @@ router.get("/", async (req, res) => {
     .catch(() => {
       res.status(500).send("Error fetching data");
     });
-  // try {
-  //   await insertIntoDatabase();
-  //   res.status(200).send("Database inserted successfully");
-  // } catch (err) {
-  //   res.status(500).send(err);
-  // }
 });
 
 router.get("/tags", async (req, res) => {
   getUniqueTags()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      res.status(500).send("Error fetching data");
+    });
+});
+
+router.get("/tag/:tag", async (req, res) => {
+  const { tag } = req.params;
+  getPromptsByTag(tag)
     .then((data) => {
       res.json(data);
     })
