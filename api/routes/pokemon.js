@@ -1,6 +1,6 @@
 const express = require("express");
 const { drizzle } = require("drizzle-orm/neon-http");
-// const { lte, eq } = require("drizzle-orm");
+const { lte } = require("drizzle-orm");
 const { PokemonTable } = require("../../drizzle/schema");
 const { config } = require("dotenv");
 
