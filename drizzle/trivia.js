@@ -22,6 +22,23 @@ const TriviaTable = pgTable("trivia-list", {
   updatedAt,
 });
 
+const StatTriviaTable = pgTable("stat-trivia-list", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  question: text("question"),
+  category: text("category"),
+  image: text("image"),
+  graph: text("graph"),
+  low: numeric("low"),
+  answer: numeric("answer"),
+  high: numeric("high"),
+  units: text("units"),
+  questionType: text("questionType"),
+  difficulty: integer("difficulty"),
+  createdAt,
+  updatedAt,
+});
+
 module.exports = {
   TriviaTable,
+  StatTriviaTable
 };

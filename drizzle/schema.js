@@ -1,7 +1,8 @@
 const { PokemonTable } = require("./pokemon");
-const { TriviaTable } = require("./trivia");
+const { TriviaTable, StatTriviaTable } = require("./trivia");
 
 module.exports = {
   PokemonTable,
   TriviaTable,
+  StatTriviaTable
 };
